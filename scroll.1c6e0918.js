@@ -117,83 +117,37 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
+})({"js/scroll.js":[function(require,module,exports) {
+// собираем все якоря; устанавливаем время анимации и количество кадров
+var anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
+    animationTime = 300,
+    framesCount = 20;
+anchors.forEach(function (item) {
+  // каждому якорю присваиваем обработчик события
+  item.addEventListener('click', function (e) {
+    // убираем стандартное поведение
+    e.preventDefault(); // для каждого якоря берем соответствующий ему элемент и определяем его координату Y
 
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
+    var coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset; // запускаем интервал, в котором
 
-  return bundleURL;
-}
+    var scroller = setInterval(function () {
+      // считаем на сколько скроллить за 1 такт
+      var scrollBy = coordY / framesCount; // если к-во пикселей для скролла за 1 такт больше расстояния до элемента
+      // и дно страницы не достигнуто
 
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+      if (scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+        // то скроллим на к-во пикселей, которое соответствует одному такту
+        window.scrollBy(0, scrollBy);
+      } else {
+        // иначе добираемся до элемента и выходим из интервала
+        window.scrollTo(0, coordY);
+        clearInterval(scroller);
+      } // время интервала равняется частному от времени анимации и к-ва кадров
 
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
-  };
-
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-
-    cssTimeout = null;
-  }, 50);
-}
-
-module.exports = reloadCSS;
-},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"sass/main.scss":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"./..\\images\\img-desktop\\noun.png":[["noun.62452cba.png","images/img-desktop/noun.png"],"images/img-desktop/noun.png"],"./..\\images\\svg\\logo\\logo-mobile-white.svg":[["logo-mobile-white.751f6784.svg","images/svg/logo/logo-mobile-white.svg"],"images/svg/logo/logo-mobile-white.svg"],"./..\\images\\svg\\logo\\logo-desktop-white.svg":[["logo-desktop-white.e6e5a0c6.svg","images/svg/logo/logo-desktop-white.svg"],"images/svg/logo/logo-desktop-white.svg"],"./..\\images\\svg\\logo\\logo-mobile-dark.svg":[["logo-mobile-dark.bdbcc7bd.svg","images/svg/logo/logo-mobile-dark.svg"],"images/svg/logo/logo-mobile-dark.svg"],"./..\\images\\svg\\logo\\logo-tablet-dark.svg":[["logo-tablet-dark.70436be8.svg","images/svg/logo/logo-tablet-dark.svg"],"images/svg/logo/logo-tablet-dark.svg"],"./..\\images\\img-mob\\hero-ellipse-foto-mob@2x.png":[["hero-ellipse-foto-mob@2x.9971526b.png","images/img-mob/hero-ellipse-foto-mob@2x.png"],"images/img-mob/hero-ellipse-foto-mob@2x.png"],"./..\\images\\img-mob\\hero-beckground-mob@2x.png":[["hero-beckground-mob@2x.77979632.png","images/img-mob/hero-beckground-mob@2x.png"],"images/img-mob/hero-beckground-mob@2x.png"],"./..\\images\\img-mob\\Vector1.png":[["Vector1.891543af.png","images/img-mob/Vector1.png"],"images/img-mob/Vector1.png"],"./..\\images\\img-tab\\hero-ellipse-foto-tab@2x.png":[["hero-ellipse-foto-tab@2x.d0dcbbb3.png","images/img-tab/hero-ellipse-foto-tab@2x.png"],"images/img-tab/hero-ellipse-foto-tab@2x.png"],"./..\\images\\img-tab\\hero-beckground-tab@2x.png":[["hero-beckground-tab@2x.ec9b5ecf.png","images/img-tab/hero-beckground-tab@2x.png"],"images/img-tab/hero-beckground-tab@2x.png"],"./..\\images\\img-tab\\Vector1.png":[["Vector1.3f123ed5.png","images/img-tab/Vector1.png"],"images/img-tab/Vector1.png"],"./..\\images\\img-desktop\\hero-ellipse-foto-desktop.png":[["hero-ellipse-foto-desktop.df2dbba7.png","images/img-desktop/hero-ellipse-foto-desktop.png"],"images/img-desktop/hero-ellipse-foto-desktop.png"],"./..\\images\\img-desktop\\hero-beckground-desktop.png":[["hero-beckground-desktop.49ba130c.png","images/img-desktop/hero-beckground-desktop.png"],"images/img-desktop/hero-beckground-desktop.png"],"./..\\images\\img-desktop\\Vector1.png":[["Vector1.b8ee7638.png","images/img-desktop/Vector1.png"],"images/img-desktop/Vector1.png"],"E:\\GitHub\\parcel-project-template\\src\\images\\svg\\arrow-left.svg":[["arrow-left.cbc76be1.svg","images/svg/arrow-left.svg"],"images/svg/arrow-left.svg"],"E:\\GitHub\\parcel-project-template\\src\\images\\svg\\arrow-right.svg":[["arrow-right.a4643d55.svg","images/svg/arrow-right.svg"],"images/svg/arrow-right.svg"],"E:\\GitHub\\parcel-project-template\\src\\images\\img-mob\\form-foto-mob.png":[["form-foto-mob.cfab4010.png","images/img-mob/form-foto-mob.png"],"images/img-mob/form-foto-mob.png"],"E:\\GitHub\\parcel-project-template\\src\\images\\img-mob\\form-foto-mob@2x.png":[["form-foto-mob@2x.1d1b4de7.png","images/img-mob/form-foto-mob@2x.png"],"images/img-mob/form-foto-mob@2x.png"],"E:\\GitHub\\parcel-project-template\\src\\images\\img-tab\\form-foto-tab.png":[["form-foto-tab.e76b020f.png","images/img-tab/form-foto-tab.png"],"images/img-tab/form-foto-tab.png"],"E:\\GitHub\\parcel-project-template\\src\\images\\img-tab\\form-foto-tab@2x.png":[["form-foto-tab@2x.a90995f2.png","images/img-tab/form-foto-tab@2x.png"],"images/img-tab/form-foto-tab@2x.png"],"E:\\GitHub\\parcel-project-template\\src\\images\\img-desktop\\form-foto-desktop.png":[["form-foto-desktop.ee677562.png","images/img-desktop/form-foto-desktop.png"],"images/img-desktop/form-foto-desktop.png"],"E:\\GitHub\\parcel-project-template\\src\\images\\img-desktop\\form-foto-desktop@2x.png":[["form-foto-desktop@2x.84fa52c5.png","images/img-desktop/form-foto-desktop@2x.png"],"images/img-desktop/form-foto-desktop@2x.png"],"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
-"use strict";
-
-require("./sass/main.scss");
-},{"./sass/main.scss":"sass/main.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+    }, animationTime / framesCount);
+  });
+});
+},{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -397,5 +351,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
-//# sourceMappingURL=/src.e31bb0bc.js.map
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/scroll.js"], null)
+//# sourceMappingURL=/scroll.1c6e0918.js.map
