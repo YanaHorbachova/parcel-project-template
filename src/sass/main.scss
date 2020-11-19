@@ -10,13 +10,10 @@
 
 // components
 @import './components/logo';
-@import './components/backdrop';
 @import './components/buttons';
 @import './components/title';
 @import './components/subtitle';
 @import './components/description';
-@import './components/social-list';
-@import './components/social-links';
 
 //layouts
 @import './layouts/page-header';
@@ -25,7 +22,7 @@
 @import './layouts/problems';
 @import './layouts/works';
 @import './layouts/programs';
-@import "./layouts/advantages";
+@import './layouts/advantages';
 @import './layouts/assurance';
 @import './layouts/teacher';
 @import './layouts/comments';
