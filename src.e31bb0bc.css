@@ -167,6 +167,7 @@ section.problems {
 }
 
 .button {
+  position: relative;
   display: inline-block;
   border: 2px solid #ff6b09;
   text-align: center;
@@ -183,6 +184,13 @@ section.problems {
 }
 .button:hover, .button:focus {
   transform: scale(0.9);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.button:not(:hover), .button:not(:focus) {
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.registration .button {
+  margin: 0 auto;
 }
 @media screen and (min-width: 1680px) {
   .button {
@@ -237,6 +245,43 @@ section.problems {
   }
 }
 
+.button::after {
+  content: "";
+  display: inline-block;
+  transition: background 0.15s ease-in-out;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.03) 1%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.85) 71%, rgba(255, 255, 255, 0));
+  width: 35%;
+  height: 100%;
+  transform: skew(-15deg, 0deg);
+  animation: move 2s;
+  animation-iteration-count: infinite;
+  animation-play-state: none;
+  animation-delay: 1s;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+@keyframes move {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.05;
+  }
+  48% {
+    opacity: 0.2;
+  }
+  80% {
+    opacity: 0;
+  }
+  to {
+    left: 75%;
+  }
+}
 .title {
   font-family: "Montserrat", sans-serif;
   font-weight: 800;
@@ -728,6 +773,10 @@ section.problems {
     height: 280px;
     background: #ffffff;
     box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.1);
+    transition-property: background;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0;
   }
 
   .work-list:not(:last-child) {
@@ -804,6 +853,10 @@ section.problems {
     height: 334px;
     background: #ffffff;
     box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.1);
+    transition-property: background;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0;
   }
 
   .work-list:nth-child(odd) {
@@ -833,7 +886,7 @@ section.problems {
     padding-left: 0px;
   }
 }
-@media screen and (min-width: 1680px) and (max-width: 2400px) {
+@media screen and (min-width: 1680px) {
   .title-text {
     margin-right: 815px;
   }
@@ -861,6 +914,10 @@ section.problems {
     height: 396px;
     background: #ffffff;
     box-shadow: 0px 8px 26px rgba(0, 0, 0, 0.1);
+    transition-property: background;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0;
   }
 
   .work-list {
@@ -962,10 +1019,7 @@ section.problems {
   transform: translateY(-10px);
 }
 .programs-subtitle {
-  margin-bottom: 23px;
-}
-.programs-direction:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 20px;
 }
 .programs-subtitle::before {
   content: " ";
@@ -1008,6 +1062,9 @@ section.problems {
   }
   .programs-list {
     margin-left: 74px;
+  }
+  .programs-direction:not(:last-child) {
+    margin-bottom: 20px;
   }
   .programs-img {
     transform: translate(180px, -90px);
@@ -1106,6 +1163,7 @@ section.problems {
   .programs-direction:not(:last-child) {
     width: 240px;
     margin-right: 0px;
+    margin-bottom: 30px;
   }
   .programs-title::before {
     content: " ";
@@ -1299,10 +1357,6 @@ section.problems {
     background-color: #f1f1f1;
   }
 }
-.teacher {
-  padding-top: 40px;
-  padding-bottom: 50px;
-}
 .teacher-title {
   font-family: "Montserrat", sans-serif;
   font-weight: 800;
@@ -1383,20 +1437,13 @@ section.problems {
   }
 }
 @media screen and (min-width: 768px) {
-  .teacher {
-    padding-top: 50px;
-    padding-bottom: 50px;
-  }
-  .teacher-img {
-    margin-bottom: 0px;
-  }
   .teacher-title {
     font-size: 26px;
     line-height: 1.3;
     margin-bottom: 20px;
   }
   .teacher-advantages-item:not(:last-child) {
-    margin-bottom: 36px;
+    margin-bottom: 30px;
   }
   .teacher-tire {
     height: 33px;
@@ -1420,13 +1467,10 @@ section.problems {
   }
 }
 @media screen and (min-width: 1680px) {
-  .teacher {
-    padding-top: 130px;
-    padding-bottom: 130px;
-  }
   .teacher-title {
     font-size: 46px;
     line-height: 1.3;
+    margin-bottom: 50px;
   }
   .teacher-right-side {
     width: 642px;
@@ -1451,15 +1495,15 @@ section.problems {
     margin-right: 35px;
   }
   .teacher-attainment {
-    padding-top: 15px;
-    padding-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 20px;
   }
   .teacher-attainment-description {
     font-size: 18px;
     line-height: 1.556;
   }
   .teacher-attainment-item:not(:last-child) {
-    margin-bottom: 27px;
+    margin-bottom: 20px;
   }
   .teacher-link {
     font-size: 18px;
@@ -1607,15 +1651,15 @@ section.problems {
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
   .slider .slick-dots {
-    top: 678px;
+    top: 710px;
   }
 }
-@media screen and (min-width: 768px) and (max-width: 1619px) {
+@media screen and (min-width: 768px) and (max-width: 1679px) {
   .slider .slick-dots {
     top: 300px;
   }
 }
-@media screen and (min-width: 1620px) {
+@media screen and (min-width: 1680px) {
   .slider .slick-dots {
     top: 380px;
     left: 605px;
@@ -1957,6 +2001,10 @@ li.slick-active {
 }
 .registration-form-input:hover, .registration-form-input:focus {
   border: 1px solid #ff6b09;
+  transition: border 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.registration-form-input:not(:hover), .registration-form-input:not(:focus) {
+  transition: border 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .registration-form-input::placeholder {
   font-style: normal;
